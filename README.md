@@ -1,5 +1,7 @@
 # Interactive painter to experiment with oriented and non-oriented mean curvature models found by machine learning
 
+![nnpf](https://user-images.githubusercontent.com/10435058/207285788-97c68200-e19d-4657-9d94-abda977152dc.png)
+
 For the original article about the associated models and results, see [Learning phase field mean curvature flows with neural networks, Bretin & Denis & Masnou & Terii, 2022](https://www.sciencedirect.com/science/article/pii/S0021999122006416) and on [arXiv](https://arxiv.org/abs/2112.07343).
 It relies on [PyTorch](https://pytorch.org/) and [Lightning](https://www.pytorchlightning.ai/) throught the dedicated package [nnpf](https://pypi.org/project/nnpf/) (see also the [GitHub repository](https://github.com/PhaseFieldICJ/nnpf)).
 
@@ -66,5 +68,8 @@ And finally, you can **record** the animation using the `r` key to start and sto
 
 Enjoy!
 
+## Demo
+
+[nnpf_paint2d_record.webm](https://user-images.githubusercontent.com/10435058/207280773-535f708e-f6cd-456d-94e5-e3b71e6ea37e.webm)
 
 

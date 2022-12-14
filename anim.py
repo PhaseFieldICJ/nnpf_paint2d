@@ -63,7 +63,7 @@ if config.bounds is None:
 else:
     N = [int(round((b - a) / dx.item())) for (a, b), dx in zip(config.bounds, model.domain.dX)]
     bounds = [
-        ((b - a) / 2 - n // 2 * dx.item(), (b - a) / 2 + (n - n // 2) * dx.item())
+        ((a + b) / 2 - n // 2 * dx.item(), (a + b) / 2 + (n - n // 2) * dx.item())
         for (a, b), dx, n in zip(config.bounds, model.domain.dX, N)
     ]
     domain = Domain(bounds, N, device=device)

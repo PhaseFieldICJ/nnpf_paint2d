@@ -313,7 +313,7 @@ class EventManager:
             self.config.display_infos = not self.config.display_infos
         elif event.key.lower() == "p":
             self.particles.add(self.key_press_pos, self.evolver.u, not event.key.islower())
-        elif event.key == "o":
+        elif event.key.lower() == "o":
             self.particles.add(self.key_press_pos, self.evolver.u, True)
             self.shapes.add_disk(self.key_press_pos, 15 * self.evolver.model.hparams.epsilon)
             self.evolver.proj()

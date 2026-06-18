@@ -31,21 +31,6 @@ parser.add_argument("--dtype", choices=("float32", "float64"), default=None, hel
 
 config = parser.parse_args()
 
-print("""
-left click      draw tool
-right click     erase tool or rescale an object
-middle click    move an object
-d or D          add inclusion or exclusion disk
-c or C          add inclusion or exclusion circle
-t or T          add inclusion or exclusion segment (click to validate end position)
-Suppr           remove inclusion/exclusion object
-p or P          add a particle (on given position or sticked to the interface)
-o or O          add a particle (like p/P) and paint a circle of about 15 eps around it
-+/-             increase or decrease iteration per frame (0 <=> pause)
-i               display simulation and performance informations on the figure
-r               start/stop recording
-""")
-
 # Device
 import torch
 if config.gpu:
@@ -87,19 +72,26 @@ particles = ParticleManager(domain, model.iprofil, model.hparams.epsilon, orient
 evolver.observers.append(particles.update)
 
 # Informations
-print(f"""
-Model:
-    class: .{type(model).__name__}
-    domain: {model.domain}
-    epsilon: {model.hparams.epsilon}
-    dt: {model.hparams.dt}
-    oriented: {shapes.oriented}
-    vin, vout: {shapes.vin}, {shapes.vout}
-    #parameters: {sum(p.numel() for p in model.parameters())}
-    device: {device}
-    dtype: {next(model.parameters()).dtype}
+print(f"\nModel: {type(model).__name__}")
+for k, v in model.hparams.items():
+    print(f"    {k}: {v}")
+print(f"\nPainting on {domain}")
+print()
 
-Painting on {domain}
+# Keyboard bindings:
+print("""Keyboard bindings:
+left click      draw tool
+right click     erase tool or rescale an object
+middle click    move an object
+d or D          add inclusion or exclusion disk
+c or C          add inclusion or exclusion circle
+t or T          add inclusion or exclusion segment (click to validate end position)
+Suppr           remove inclusion/exclusion object
+p or P          add a particle (on given position or sticked to the interface)
+o or O          add a particle (like p/P) and paint a circle of about 15 eps around it
++/-             increase or decrease iteration per frame (0 <=> pause)
+i               display simulation and performance informations on the figure
+r               start/stop recording
 """)
 
 # Output normalization

@@ -26,6 +26,7 @@ parser.add_argument('--bounds', type=bounds_parser, default=None, help="Domain b
 parser.add_argument("--gpu", action="store_true", help="Evaluation model on your GPU")
 parser.add_argument("--display_step", type=int, default=1, help="Render frame every given number")
 parser.add_argument("--display_infos", type=lambda v: bool(strtobool(v)), nargs='?', default=False, const=True, help="Display simulation and performance informations")
+parser.add_argument("--compile", action="store_true", help="Compile model")
 
 config = parser.parse_args()
 
@@ -55,6 +56,9 @@ from nnpf.problems import Problem
 model = Problem.load_from_checkpoint(config.checkpoint, map_location=device)
 model.freeze()
 model.to(device)
+
+if config.compile:
+    model = torch.compile(model, fullgraph=True)
 
 # Domain
 from nnpf.domain import Domain

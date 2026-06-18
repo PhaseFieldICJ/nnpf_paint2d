@@ -27,6 +27,7 @@ parser.add_argument("--gpu", action="store_true", help="Evaluation model on your
 parser.add_argument("--display_step", type=int, default=1, help="Render frame every given number")
 parser.add_argument("--display_infos", type=lambda v: bool(strtobool(v)), nargs='?', default=False, const=True, help="Display simulation and performance informations")
 parser.add_argument("--compile", action="store_true", help="Compile model")
+parser.add_argument("--dtype", choices=("float32", "float64"), default=None, help="Floating-point representation width (default from the checkpoint)")
 
 config = parser.parse_args()
 
@@ -58,8 +59,13 @@ model = Problem.load_from_checkpoint(config.checkpoint, map_location=device)
 model.freeze()
 model.to(device)
 
+if config.dtype is not None:
+    dtype = getattr(torch, config.dtype)
+    model.to(dtype=dtype)
+
 if config.compile:
     model = torch.compile(model, fullgraph=True)
+
 
 # Domain
 from nnpf.domain import Domain
@@ -72,7 +78,6 @@ else:
         for (a, b), dx, n in zip(config.bounds, model.domain.dX, N)
     ]
     domain = Domain(bounds, N, device=device)
-print(f"domain = {domain}")
 
 # Shapes and evolver
 from utils import *
@@ -81,6 +86,21 @@ evolver = Evolver(model, domain, shapes)
 particles = ParticleManager(domain, model.iprofil, model.hparams.epsilon, oriented=shapes.oriented)
 evolver.observers.append(particles.update)
 
+# Informations
+print(f"""
+Model:
+    class: .{type(model).__name__}
+    domain: {model.domain}
+    epsilon: {model.hparams.epsilon}
+    dt: {model.hparams.dt}
+    oriented: {shapes.oriented}
+    vin, vout: {shapes.vin}, {shapes.vout}
+    #parameters: {sum(p.numel() for p in model.parameters())}
+    device: {device}
+    dtype: {next(model.parameters()).dtype}
+
+Painting on {domain}
+""")
 
 # Output normalization
 normalize = lambda u: (u - shapes.vout) / (shapes.vin - shapes.vout)
@@ -135,7 +155,7 @@ def update(frame):
     return to_blit
 
 from matplotlib.animation import FuncAnimation
-anim = FuncAnimation(plt.gcf(), update, blit=True, interval=0)
+anim = FuncAnimation(plt.gcf(), update, blit=True, interval=0, cache_frame_data=False)
 plt.show()
 
 print()

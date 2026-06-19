@@ -23,7 +23,7 @@ The checkpoints are available in `logs` of the main branch of this repository:
 - oriented case ($q$ profil) with anisotropic energy (ball in $l^4$ norm) rotated by 30°: `logs/ModelDR/oriented_lp4_theta30_k17_zeros_s0`,
 - non-oriented case ($q'$ profil) with isotropic energy: `logs/ResidualParallel/nonoriented_lp2_k17_zeros_s1`,
 - non-oriented case ($q'$ profil) with anisotropic energy (ball in $l^4$ norm): `logs/ResidualParallel/nonoriented_lp4_k17_zeros_s1`,
-- non-oriented case ($q'$ profil) with anisotropic energy (ball in $l^4$ norm) rotated by 30°: `logs/ResidualParallel/nonoriented_lp4_theta30_k17_zeros_s0`.
+- non-oriented case ($q'$ profil) with anisotropic energy (ball in $l^4$ norm) rotated by 30°: `logs/ResidualParallel/nonoriented_lp4_theta30_k17_zeros_s0/checkpoints/last.ckpt` (the "best" checkpoint fails surprinsingly to keep the interface. The last one works).
 
 If you want to train it by yourself, you can checkout the `no_data` branch instead or remove the `logs` folder and launch the training using:
 ```bash

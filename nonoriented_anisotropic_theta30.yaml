@@ -37,5 +37,5 @@ val_N: 200
 val_reverse: 0.0
 val_steps: 5
 
-max_epochs: 17000
+max_epochs: 20000
 check_val_every_n_epoch: 100

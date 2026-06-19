@@ -314,7 +314,7 @@ class EventManager:
         elif event.key.lower() == "p":
             self.particles.add(self.key_press_pos, self.evolver.u, not event.key.islower())
         elif event.key.lower() == "o":
-            self.particles.add(self.key_press_pos, self.evolver.u, True)
+            self.particles.add(self.key_press_pos, self.evolver.u, not event.key.islower())
             self.shapes.add_disk(self.key_press_pos, 15 * self.evolver.model.hparams.epsilon)
             self.evolver.proj()
             self.shapes.del_shape_at(*self.key_press_pos)

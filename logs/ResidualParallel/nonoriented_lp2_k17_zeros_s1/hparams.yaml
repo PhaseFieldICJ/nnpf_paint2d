@@ -1,0 +1,36 @@
+N: 256
+batch_shuffle: true
+batch_size: 10
+bounds:
+- - 0.0
+  - 1.0
+- - 0.0
+  - 1.0
+dt: 1.52587890625e-05
+epsilon: 0.00390625
+kernel_init: zeros
+kernel_size:
+- 17
+- 17
+loss_norms:
+- - 2
+  - 1.0
+loss_power: 2.0
+lp: 2
+lr: 0.0001
+num_workers: 0
+radius:
+- 0.0
+- 0.4
+reaction_activation: GaussActivation
+reaction_layers:
+- 8
+- 3
+seed: 1
+train_N: 100
+train_reverse: 0.0
+train_steps: 5
+use_lazy_datasets: false
+val_N: 200
+val_reverse: 0.0
+val_steps: 5

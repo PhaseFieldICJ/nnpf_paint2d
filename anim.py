@@ -38,6 +38,7 @@ c or C          add inclusion or exclusion circle
 t or T          add inclusion or exclusion segment (click to validate end position)
 Suppr           remove inclusion/exclusion object
 p or P          add a particle (on given position or sticked to the interface)
+o or O          add a particle (like p/P) and paint a circle of about 15 eps around it
 +/-             increase or decrease iteration per frame (0 <=> pause)
 i               display simulation and performance informations on the figure
 r               start/stop recording

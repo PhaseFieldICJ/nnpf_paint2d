@@ -6,20 +6,25 @@ For the original article about the associated models and results, see [Learning 
 It relies on [PyTorch](https://pytorch.org/) and [Lightning](https://www.pytorchlightning.ai/) throught the dedicated package [nnpf](https://pypi.org/project/nnpf/) (see also the [GitHub repository](https://github.com/PhaseFieldICJ/nnpf)).
 
 ## Requirements
-You need at least a Python 3.8 and the [nnpf](https://pypi.org/project/nnpf/) package available on Pypi:
+You need at least a Python 3.10 and the [nnpf](https://pypi.org/project/nnpf/) package available on Pypi:
 ```bash
-pip install nnpf
+pip install nnpf>=1.1.0
 ```
 
 ## Models
-Three models are available:
-- for an oriented isotropic mean-curvature flow,
-- for an non-oriented isotropic mean-curvature flow,
-- for an non-oriented anisotropic mean-curvature flow (distance from l⁴ norm).
+Two models are available from `models.py`:
+- `ModelDR` that is a convolutional layer followed by a reaction layer (MLP). It is enough for the oriented case,
+- `ResidualParallel` that has more diffusion-reaction layers. This model is required for the non-oriented case.
 
-The models code are in models.py`.
 
-The checkpoints are available in `logs` of the main branch of this repository.
+The checkpoints are available in `logs` of the main branch of this repository:
+- oriented case ($q$ profil) with isotropic energy: `logs/ModelDR/oriented_lp2_k17_zeros_s0`,
+- oriented case ($q$ profil) with anisotropic energy (ball in $l^4$ norm): `logs/ModelDR/oriented_lp4_k17_zeros_s0`,
+- oriented case ($q$ profil) with anisotropic energy (ball in $l^4$ norm) rotated by 30°: `logs/ModelDR/oriented_lp4_theta30_k17_zeros_s0`,
+- non-oriented case ($q'$ profil) with isotropic energy: `logs/ResidualParallel/nonoriented_lp2_k17_zeros_s1`,
+- non-oriented case ($q'$ profil) with anisotropic energy (ball in $l^4$ norm): `logs/ResidualParallel/nonoriented_lp4_k17_zeros_s1`,
+- non-oriented case ($q'$ profil) with anisotropic energy (ball in $l^4$ norm) rotated by 30°: `logs/ResidualParallel/nonoriented_lp4_theta30_k17_zeros_s0/checkpoints/last.ckpt` (the "best" checkpoint fails surprinsingly to keep the interface. The last one works).
+
 If you want to train it by yourself, you can checkout the `no_data` branch instead or remove the `logs` folder and launch the training using:
 ```bash
 make
@@ -51,6 +56,8 @@ python anim.py --bounds [-1,1]x[-1,1] logs/ResidualParallel/nonoriented_lp4_k17_
 ```
 and start paused with `--display_step 0`.
 
+You may want to use the `--compile` option to accelerate the evolution. Don't forget to also increase the number of iteration per frame with the `--display_step` option or the `+` key.
+
 ## Usage
 Once launched, you can **draw** a phase with the left click and **erase** with the right click.
 
@@ -58,7 +65,7 @@ You can add an **inclusion disk** (there will be always a phase at that positon)
 
 The same way, you can add an **exclusion disk** (there will be never be a phase at that positon) with the `D` key, an **inclusion/exclusion circle** (`c` and `C` keys) or an **inclusion/exclusion segment** (`t` and `T` keys, use the left click to validat the end point).
 
-You can also add **passive particles** that will (try) to follow the flow of the animation. It can be added at current position with `p` key, or initialy projected to the nearest interface with the `P` key.
+You can also add **passive particles** that will (try) to follow the flow of the animation. It can be added at current position with `p` key, or initialy projected to the nearest interface with the `P` key. You can do the same with the `o/O` key but it also paint a circle around the added particle.
 
 **Animation speed** can be modified through the number of iterations per frame that is initialy set at 1 but can be decreased with the `-` key (0 means that the animation is paused) and increased with the `+` key.
 
@@ -67,6 +74,7 @@ Additionally, some **informations** may be displayed on the figure with the `i` 
 And finally, you can **record** the animation using the `r` key to start and stop recording.
 
 Enjoy!
+
 
 ## Demo
 
